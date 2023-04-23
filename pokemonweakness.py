@@ -23,9 +23,7 @@ with open('pokemonchartmultipliers.json', 'r') as f:
 type_input = input("Enter the opponent type(s) (separated by a space): ")
 # Split the input into a list of types
 types = type_input.split()
-# Store the effective types into results
-results = effective_types(type_chart, *types)
-immune_count = sum(value == 0.0 for value in results.values())
-effective_count = sum(value >= 2.0 for value in results.values())
+# Store the effective types into results in descending order based on the key's values
+results = sorted(effective_types(type_chart, *types).items(), key=lambda x: x[1], reverse=True)
 # Print the contents of results
 print(results)
