@@ -57,8 +57,10 @@ async def on_ready():
 # Monitors chat to see if someone wanted to invoke the command
 @client.event
 async def on_message(message):
+    
     if message.author == client.user:
         return
+    
     # Will trigger if the discord user sends a message with !poketype in the beginning
     if message.content.startswith('!poketype'):
         print("Received message: ", message.content)
@@ -72,9 +74,9 @@ async def on_message(message):
     except ValueError as e:
         await message.channel.send(str(e))
         return
-    # Convert the results to a string
-    final_str = ''
+
     # String formatting
+        final_str = ''
     if len(super_effective) > 0:
         supereffective_str = ', '.join([f'{k} {str(v).replace(".0", "x")}' for k, v in super_effective.items()])
         final_str += f'**Super-effective**: {supereffective_str}\n'
@@ -88,6 +90,5 @@ async def on_message(message):
 
 # Token grabbed from Environment Variables
 token = os.environ['DISCORD_API_TOKEN']
-
 # Run Client
 client.run(token)
