@@ -13,7 +13,7 @@ def effective_types(type_chart, *types):
                 # Multiply the current value of the corresponding key (k) in multipliers by the value in (v) which matches the user's current type (t)
                 multipliers[k] *= v[t]
     # Return a dictionary containing key-value pairs that are greater or equal to 2.0
-    return {k: v for k, v in multipliers.items() if v >= 2.0}
+    return {k: v for k, v in multipliers.items() if v >= 2.0 or v == 0}
 
 # Open the JSON file in read-only mode 
 with open('pokemonchartmultipliers.json', 'r') as f:
@@ -25,5 +25,7 @@ type_input = input("Enter the opponent type(s) (separated by a space): ")
 types = type_input.split()
 # Store the effective types into results
 results = effective_types(type_chart, *types)
+immune_count = sum(value == 0.0 for value in results.values())
+effective_count = sum(value >= 2.0 for value in results.values())
 # Print the contents of results
 print(results)
