@@ -48,10 +48,12 @@ intents.guilds = True
 
 # Initializes the discord client with the configured intents
 client = discord.Client(intents=intents)
-
+    
 # Debugging purposes to check if the bot is ready in console
 @client.event
 async def on_ready():
+    channel = client.get_channel(971952487575736373)
+    await channel.send("I'm online now")
     print(f'{client.user} has connected to Discord!')
 
 # Monitors chat to see if someone wanted to invoke the command
@@ -67,7 +69,9 @@ async def on_message(message):
         # Get the type input from the message content
         type_input = message.content.split()[1:]
         # Store the effective types into results
-        
+        if len(type_input) == 0:
+            await message.channel.send("The correct syntax is: ```\n!poketype (Type1) \n!poketype (Type1) (Type2)```")
+            return
     # Attempts to store the results of the method into the two dictionaries
     try:
         super_effective, immune = effective_types(type_chart, *type_input)
@@ -91,4 +95,10 @@ async def on_message(message):
 # Token grabbed from Environment Variables
 token = os.environ['DISCORD_API_TOKEN']
 # Run Client
-client.run(token)
+try:
+    client.run(token)
+except KeyboardInterrupt:
+    # Keyboard interrupt detected, send a message to the specified channel
+    channel = client.fetch_channel(971952487575736373)
+    channel.send("I'm going offline now")
+    client.close()
