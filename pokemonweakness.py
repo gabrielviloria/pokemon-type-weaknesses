@@ -76,7 +76,7 @@ async def on_message(message):
         return
 
     # String formatting
-        final_str = ''
+    final_str = ''
     if len(super_effective) > 0:
         supereffective_str = ', '.join([f'{k} {str(v).replace(".0", "x")}' for k, v in super_effective.items()])
         final_str += f'**Super-effective**: {supereffective_str}\n'
